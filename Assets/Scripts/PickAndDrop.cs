@@ -6,14 +6,12 @@ public class PickAndDrop : MonoBehaviour
 {
     [SerializeField] private float lerpTime = 0.1f;
     private Vector2 mousePosition;
-    private Vector2 atomPosition;
     private Collider2D atomCollider;
     private Rigidbody2D atomRigidbody;
     private bool isPicking = false;
 
     private void Start()
     {
-        atomPosition = transform.position;
         atomRigidbody = transform.GetComponent<Rigidbody2D>();
         atomCollider = transform.GetComponent<Collider2D>();
     }
@@ -21,12 +19,11 @@ public class PickAndDrop : MonoBehaviour
     private void Update()
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        AtomDetection();
     }
 
     private void FixedUpdate()
     {
+        AtomDetection();
         PickOrDrop();
     }
 
@@ -52,7 +49,7 @@ public class PickAndDrop : MonoBehaviour
         if (isPicking) 
         {
              atomRigidbody.linearVelocity = Vector2.zero;
-             atomRigidbody.MovePosition(Vector2.Lerp(atomPosition, mousePosition, lerpTime));
+             atomRigidbody.MovePosition(Vector2.Lerp(transform.position, mousePosition, lerpTime));
         }
         else
         {

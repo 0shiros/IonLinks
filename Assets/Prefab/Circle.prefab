@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1283610484335735605}
   - component: {fileID: 4842333635793512908}
   - component: {fileID: 2792632794389669517}
-  - component: {fileID: 6466772511707053604}
   - component: {fileID: -1726591910722087527}
-  m_Layer: 0
+  - component: {fileID: 6466772511707053604}
+  - component: {fileID: 2132085386608675753}
+  m_Layer: 6
   m_Name: Circle
   m_TagString: Atom
   m_Icon: {fileID: 0}
@@ -157,19 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &6466772511707053604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7591677087130960900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dddfdc12d51b63f42bc603e799ce6ffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickAndDrop
-  lerpTime: 1
 --- !u!95 &-1726591910722087527
 Animator:
   serializedVersion: 7
@@ -192,3 +180,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6466772511707053604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7591677087130960900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dddfdc12d51b63f42bc603e799ce6ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickAndDrop
+  lerpTime: 1
+--- !u!114 &2132085386608675753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7591677087130960900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9540232069af54b938a9955a7fc526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Links
+  radiusAtomDetection: 3.5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
