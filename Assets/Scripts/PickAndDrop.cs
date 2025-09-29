@@ -3,8 +3,8 @@ using UnityEngine;
 public class PickAndDrop : MonoBehaviour
 {
     [SerializeField] private float lerpTime = 0.1f;
-    private Vector2 mousePosition;
-    private Collider2D atomCollider;
+    public Vector2 mousePosition;
+    public Collider2D atomCollider;
     private Rigidbody2D atomRigidbody;
     public bool isPicking = false;
     public bool isLocked = false;

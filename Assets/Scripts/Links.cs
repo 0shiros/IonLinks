@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Links : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class Links : MonoBehaviour
     private PickAndDrop pickAndDrop;
     private bool canCreateLink = false;
     private int currentLinkNumber = 0;
+    private int minLinkNumber = 0;
     private int maxLinkNumber = 2;
 
     private void Start()
@@ -17,10 +20,11 @@ public class Links : MonoBehaviour
         pickAndDrop = GetComponent<PickAndDrop>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         AtomsNextDetection();
         LockAtom();
+        UnlockAtom();
     }
 
     private void AtomsNextDetection()
@@ -38,6 +42,10 @@ public class Links : MonoBehaviour
             else if (hitResults.Count != 2)
             {
                 canCreateLink = false;
+            }
+            else
+            {
+                Debug.Log("Se passe un truc pas net");
             }
         }
     }
@@ -62,9 +70,34 @@ public class Links : MonoBehaviour
                     jointPickAndDrop.isLocked = true;
                     currentLinkNumber++;
                 }
+                
+                pickAndDrop.isLocked = true;
+                
             }
-            
-            pickAndDrop.isLocked = true;
+        }
+    }
+    
+    private void UnlockAtom()
+    {
+        if (pickAndDrop.isLocked)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                RaycastHit2D hitMouse = Physics2D.Raycast(pickAndDrop.mousePosition, Vector2.zero);
+
+                if (hitMouse.collider == pickAndDrop.atomCollider)
+                {
+                    pickAndDrop.isLocked = false;
+                    SpringJoint2D[] currentJoint = GetComponents<SpringJoint2D>();
+                    foreach (SpringJoint2D joint in currentJoint)
+                    {
+                        Destroy(joint);
+                    }
+
+                    currentLinkNumber = minLinkNumber;
+                    canCreateLink = false;
+                }
+            }
         }
     }
     
