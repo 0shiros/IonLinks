@@ -28,7 +28,7 @@ public class PickAndDrop : MonoBehaviour
 
     private void AtomDetection()
     {
-        if (Input.GetMouseButtonDown(0) && isLocked == false)
+        if (Input.GetMouseButtonDown(0) && !isLocked)
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 

@@ -1127,6 +1127,14 @@ PrefabInstance:
       propertyPath: layerMask.m_Bits
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 4278148459861873032, guid: 2438ba46ed17df54d9b50605e19b6d12, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4487756196876344760, guid: 2438ba46ed17df54d9b50605e19b6d12, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6466772511707053604, guid: 2438ba46ed17df54d9b50605e19b6d12, type: 3}
       propertyPath: lerpTime
       value: 1
