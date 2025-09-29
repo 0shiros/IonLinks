@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickAndDrop : MonoBehaviour
@@ -8,7 +6,8 @@ public class PickAndDrop : MonoBehaviour
     private Vector2 mousePosition;
     private Collider2D atomCollider;
     private Rigidbody2D atomRigidbody;
-    private bool isPicking = false;
+    public bool isPicking = false;
+    public bool isLocked = false;
 
     private void Start()
     {
@@ -19,41 +18,38 @@ public class PickAndDrop : MonoBehaviour
     private void Update()
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        AtomDetection();
     }
 
     private void FixedUpdate()
     {
-        AtomDetection();
-        PickOrDrop();
+        Pick();
     }
 
     private void AtomDetection()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isLocked == false)
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-            
-            if (hit.collider != null && hit.collider == atomCollider)
+
+            if (hit.collider == atomCollider)
             {
                 isPicking = true;
             }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-             isPicking = false;
+            isPicking = false;
         }
     }
 
-    private void PickOrDrop()
+
+    private void Pick()
     {
         if (isPicking) 
         {
              atomRigidbody.linearVelocity = Vector2.zero;
              atomRigidbody.MovePosition(Vector2.Lerp(transform.position, mousePosition, lerpTime));
-        }
-        else
-        {
-            isPicking = false;
         }
     }
 }
