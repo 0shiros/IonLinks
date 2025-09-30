@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7772563905893116843}
   - component: {fileID: 4487756196876344760}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Links1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6545564919901426102}
-  m_Layer: 6
+  - component: {fileID: 4679170016991659104}
+  m_Layer: 0
   m_Name: PreviewJoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,6 +174,18 @@ Transform:
   - {fileID: 4911042714869168697}
   m_Father: {fileID: 468443676126399838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4679170016991659104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2612952108384482866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4499d3a733511e148ab1c451e939bbb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewLinks
 --- !u!1 &4599586050967019894
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +195,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4540609949744905110}
-  m_Layer: 6
+  - component: {fileID: 5664280682102649936}
+  m_Layer: 0
   m_Name: Links
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,6 +220,30 @@ Transform:
   - {fileID: 3190814044568929936}
   m_Father: {fileID: 468443676126399838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5664280682102649936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4599586050967019894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9540232069af54b938a9955a7fc526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreateLinks
+  radiusAtomDetection: 3
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  nearestHits: []
+  pickAndDrop: {fileID: 0}
+  atomsTransform: {fileID: 0}
+  canCreateLink: 0
+  minLinkNumber: 0
+  maxLinkNumber: 2
+  frequencyJoints: 8
+  forceToBreak: 75
 --- !u!1 &5641893684182945817
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4911042714869168697}
   - component: {fileID: 1846984525613257780}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Joint 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +394,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3190814044568929936}
   - component: {fileID: 4278148459861873032}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Links2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +534,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5231368785436382250}
   - component: {fileID: 1837907058573929206}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Joint 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -640,9 +678,8 @@ GameObject:
   - component: {fileID: 2792632794389669517}
   - component: {fileID: -1726591910722087527}
   - component: {fileID: 6466772511707053604}
-  - component: {fileID: 2132085386608675753}
   m_Layer: 6
-  m_Name: Circle
+  m_Name: AtomsMovable
   m_TagString: Atom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -825,25 +862,3 @@ MonoBehaviour:
   atomCollider: {fileID: 0}
   isPicking: 0
   isLocked: 0
---- !u!114 &2132085386608675753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7591677087130960900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce9540232069af54b938a9955a7fc526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Links
-  radiusAtomDetection: 3.5
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  previewLineRenderers:
-  - {fileID: 1837907058573929206}
-  - {fileID: 1846984525613257780}
-  lineRenderers:
-  - {fileID: 4487756196876344760}
-  - {fileID: 4278148459861873032}

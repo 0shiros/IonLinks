@@ -40,6 +40,7 @@ public class PickAndDrop : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             isPicking = false;
+            atomRigidbody.excludeLayers = default;
         }
     }
 
@@ -50,6 +51,7 @@ public class PickAndDrop : MonoBehaviour
         {
              atomRigidbody.linearVelocity = Vector2.zero;
              atomRigidbody.MovePosition(Vector2.Lerp(transform.position, mousePosition, lerpTime));
+             atomRigidbody.excludeLayers = LayerMask.GetMask("Atom");
         }
     }
 }

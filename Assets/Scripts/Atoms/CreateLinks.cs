@@ -2,24 +2,29 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Links : MonoBehaviour
+public class CreateLinks : MonoBehaviour
 {
     [SerializeField] private float radiusAtomDetection;
     [SerializeField] private LayerMask layerMask;
-    private List<Collider2D> nearestHits;
-   
-    private PickAndDrop pickAndDrop;
-    private bool canCreateLink = false;
+    public List<Collider2D> nearestHits;
+
+    public PickAndDrop pickAndDrop;
+    public Transform atomsTransform;
+    public bool canCreateLink = false;
     private int currentLinkNumber = 0;
-    private int minLinkNumber = 0;
-    private int maxLinkNumber = 2;
+    public int minLinkNumber = 0;
+    public int maxLinkNumber = 2;
+    public float frequencyJoints = 10;
+    public float forceToBreak = 400;
     
-    [SerializeField] List<LineRenderer> previewLineRenderers;
-    [SerializeField] List<LineRenderer> lineRenderers;
+    private List<LineRenderer> lineRenderers;
 
     private void Start()
     {
-        pickAndDrop = GetComponent<PickAndDrop>();
+        atomsTransform = transform.parent;
+        pickAndDrop = atomsTransform.GetComponent<PickAndDrop>();
+        LineRenderer[] getLineRenderers = GetComponentsInChildren<LineRenderer>();
+        lineRenderers = new(getLineRenderers);
     }
 
     private void Update()
@@ -27,8 +32,8 @@ public class Links : MonoBehaviour
         AtomsNextDetection();
         LockAtom();
         UnlockAtom();
-        PreviewJoints();
         LinksCurrentPositions();
+        DestroyLineRenderers();
     }
 
     List<Collider2D> FindNearestHits(Transform atomPicked, List<Collider2D> hits)
@@ -40,11 +45,13 @@ public class Links : MonoBehaviour
     {
         if (pickAndDrop.isPicking)
         {
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radiusAtomDetection, layerMask);
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(atomsTransform.position, radiusAtomDetection, layerMask);
             List<Collider2D> hitResults = new (hitColliders);
-            hitResults.Remove(GetComponent<Collider2D>());
+            hitResults.Remove(atomsTransform.GetComponent<Collider2D>());
             
-            nearestHits = FindNearestHits(transform, hitResults);
+            //Check s'ils sont locked et les remove s'ils ne le sont pas
+            
+            nearestHits = FindNearestHits(atomsTransform, hitResults);
             
             if (nearestHits.Count == maxLinkNumber)
             {
@@ -68,8 +75,11 @@ public class Links : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radiusAtomDetection);
+        if (atomsTransform != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(atomsTransform.position, radiusAtomDetection);
+        }
     }
 
     private void LockAtom()
@@ -80,9 +90,12 @@ public class Links : MonoBehaviour
             {
                 foreach (Collider2D hit in nearestHits)
                 {
-                    SpringJoint2D joint = gameObject.AddComponent(typeof(SpringJoint2D)) as SpringJoint2D;
+                    SpringJoint2D joint = atomsTransform.gameObject.AddComponent(typeof(SpringJoint2D)) as SpringJoint2D;
                     if (joint == null) return;
                     joint.connectedBody = hit.GetComponent<Rigidbody2D>();
+                    joint.frequency = frequencyJoints;
+                    joint.breakForce = forceToBreak;
+                    joint.breakAction = JointBreakAction2D.Disable;
                     PickAndDrop jointPickAndDrop = hit.GetComponent<PickAndDrop>();
                     jointPickAndDrop.isLocked = true;
                     currentLinkNumber++;
@@ -105,13 +118,13 @@ public class Links : MonoBehaviour
         {
             if (lineRenderers[i].positionCount == maxLinkNumber)
             {
-                lineRenderers[i].SetPosition(0, transform.position);
+                lineRenderers[i].SetPosition(0, atomsTransform.position);
                 lineRenderers[i].SetPosition(1, nearestHits[i].transform.position);
             }
         }
        
     }
-    
+
     private void UnlockAtom()
     {
         if (pickAndDrop.isLocked)
@@ -123,18 +136,18 @@ public class Links : MonoBehaviour
                 if (hitMouse.collider == pickAndDrop.atomCollider)
                 {
                     pickAndDrop.isLocked = false;
-                    SpringJoint2D[] currentJoint = GetComponents<SpringJoint2D>();
-                    
+                    SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
+
                     foreach (SpringJoint2D joint in currentJoint)
                     {
                         Destroy(joint);
                     }
-                    
+
                     for (int i = 0; i < maxLinkNumber; i++)
                     {
                         lineRenderers[i].positionCount = minLinkNumber;
                     }
-                    
+
                     currentLinkNumber = minLinkNumber;
                     canCreateLink = false;
                 }
@@ -142,22 +155,18 @@ public class Links : MonoBehaviour
         }
     }
 
-    private void PreviewJoints()
+    private void DestroyLineRenderers()
     {
-        if (canCreateLink && pickAndDrop.isPicking)
+        SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
+
+        foreach (SpringJoint2D joint in currentJoint)
         {
-            for (int i = 0; i < maxLinkNumber; i++)
+            if (!joint.enabled)
             {
-                previewLineRenderers[i].positionCount = maxLinkNumber;
-                previewLineRenderers[i].SetPosition(0, transform.position);
-                previewLineRenderers[i].SetPosition(1, nearestHits[i].transform.position);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < maxLinkNumber; i++)
-            {
-                previewLineRenderers[i].positionCount = minLinkNumber;
+                for (int i = 0; i < maxLinkNumber; i++)
+                {
+                    lineRenderers[i].positionCount = minLinkNumber;
+                }
             }
         }
     }
