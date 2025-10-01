@@ -243,7 +243,7 @@ MonoBehaviour:
   minLinkNumber: 0
   maxLinkNumber: 2
   frequencyJoints: 8
-  forceToBreak: 75
+  forceToBreak: 100
 --- !u!1 &5641893684182945817
 GameObject:
   m_ObjectHideFlags: 0

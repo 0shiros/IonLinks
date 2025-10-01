@@ -49,6 +49,18 @@ public class CreateLinks : MonoBehaviour
             List<Collider2D> hitResults = new (hitColliders);
             hitResults.Remove(atomsTransform.GetComponent<Collider2D>());
             
+            foreach (Collider2D hit in hitResults)
+            {
+                PickAndDrop hitPickAndDrop = hit.GetComponent<PickAndDrop>();
+                
+                if (!hitPickAndDrop.isLocked)
+                {
+                    hitResults.Remove(hit.GetComponent<Collider2D>());
+                }
+                
+                Debug.Log(hit.name);
+            }
+            
             //Check s'ils sont locked et les remove s'ils ne le sont pas
             
             nearestHits = FindNearestHits(atomsTransform, hitResults);
