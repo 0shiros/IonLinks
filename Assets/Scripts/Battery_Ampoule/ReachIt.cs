@@ -19,7 +19,7 @@ public class ReachIt : MonoBehaviour
 
     private void CheckAtoms()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, size, layerMask);
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, size,0, layerMask);
         List<Collider2D> currentHits = new(hitColliders);
         currentHits.Remove(transform.GetComponent<Collider2D>());
 

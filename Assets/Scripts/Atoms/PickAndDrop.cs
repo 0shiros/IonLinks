@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PickAndDrop : MonoBehaviour
@@ -52,6 +53,40 @@ public class PickAndDrop : MonoBehaviour
              atomRigidbody.linearVelocity = Vector2.zero;
              atomRigidbody.MovePosition(Vector2.Lerp(transform.position, mousePosition, lerpTime));
              atomRigidbody.excludeLayers = LayerMask.GetMask("Atom");
+        }
+    }
+
+    private void OnEnable()
+    {
+        CreateLinks.breakLinks += BreakLinks;
+    }
+
+    private void OnDisable()
+    {
+        CreateLinks.breakLinks -= BreakLinks;
+    }
+
+    private void BreakLinks(Rigidbody2D rb)
+    {
+        SpringJoint2D[] joints = GetComponents<SpringJoint2D>();
+        int count = 0;
+        foreach (SpringJoint2D joint in joints)
+        {
+            if (rb == joint.connectedBody)
+            {
+                joint.enabled = false;
+                
+            }
+
+            if (joint.enabled)
+            {
+                count++;
+            }
+        }
+
+        if (count < 1)
+        {
+            isLocked = false;
         }
     }
 }

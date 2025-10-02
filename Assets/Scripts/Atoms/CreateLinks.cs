@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,9 +17,12 @@ public class CreateLinks : MonoBehaviour
     public int maxLinkNumber = 2;
     public float frequencyJoints = 10;
     public float forceToBreak = 400;
-    
-    private List<LineRenderer> lineRenderers;
 
+    private List<LineRenderer> lineRenderers;
+    public bool isMagnetised = false;
+
+    public static Action<Rigidbody2D> breakLinks;
+        
     private void Start()
     {
         atomsTransform = transform.parent;
@@ -38,19 +42,21 @@ public class CreateLinks : MonoBehaviour
 
     List<Collider2D> FindNearestHits(Transform atomPicked, List<Collider2D> hits)
     {
-        return hits.OrderBy(hitPoint => Vector3.Distance(atomPicked.transform.position, hitPoint.transform.position)).Take(maxLinkNumber).ToList();
+        return hits.OrderBy(hitPoint => Vector3.Distance(atomPicked.transform.position, hitPoint.transform.position))
+            .Take(maxLinkNumber).ToList();
     }
 
     private void AtomsNextDetection()
     {
         if (pickAndDrop.isPicking)
         {
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(atomsTransform.position, radiusAtomDetection, layerMask);
-            List<Collider2D> hitResults = new (hitColliders);
+            Collider2D[] hitColliders =
+                Physics2D.OverlapCircleAll(atomsTransform.position, radiusAtomDetection, layerMask);
+            List<Collider2D> hitResults = new(hitColliders);
             hitResults.Remove(atomsTransform.GetComponent<Collider2D>());
 
             List<Collider2D> filteredHits = new();
-            
+
             for (int i = 0; i < hitResults.Count; i++)
             {
                 PickAndDrop hitPickAndDrop = hitResults[i].GetComponent<PickAndDrop>();
@@ -59,9 +65,9 @@ public class CreateLinks : MonoBehaviour
                     filteredHits.Add(hitResults[i]);
                 }
             }
-            
+
             nearestHits = FindNearestHits(atomsTransform, filteredHits);
-            
+
             canCreateLink = (nearestHits.Count == maxLinkNumber);
 
             if (filteredHits.Count < maxLinkNumber)
@@ -89,7 +95,8 @@ public class CreateLinks : MonoBehaviour
             {
                 foreach (Collider2D hit in nearestHits)
                 {
-                    SpringJoint2D joint = atomsTransform.gameObject.AddComponent(typeof(SpringJoint2D)) as SpringJoint2D;
+                    SpringJoint2D joint =
+                        atomsTransform.gameObject.AddComponent(typeof(SpringJoint2D)) as SpringJoint2D;
                     if (joint == null) return;
                     joint.connectedBody = hit.GetComponent<Rigidbody2D>();
                     joint.frequency = frequencyJoints;
@@ -99,14 +106,14 @@ public class CreateLinks : MonoBehaviour
                     jointPickAndDrop.isLocked = true;
                     currentLinkNumber++;
                 }
-                
+
                 for (int i = 0; i < maxLinkNumber; i++)
                 {
                     lineRenderers[i].positionCount = maxLinkNumber;
                 }
 
                 pickAndDrop.isLocked = true;
-                
+
             }
         }
     }
@@ -121,7 +128,7 @@ public class CreateLinks : MonoBehaviour
                 lineRenderers[i].SetPosition(1, nearestHits[i].transform.position);
             }
         }
-       
+
     }
 
     private void UnlockAtom()
@@ -146,6 +153,8 @@ public class CreateLinks : MonoBehaviour
                     {
                         lineRenderers[i].positionCount = minLinkNumber;
                     }
+                    
+                    breakLinks?.Invoke(transform.parent.GetComponent<Rigidbody2D>());
 
                     currentLinkNumber = minLinkNumber;
                     canCreateLink = false;
@@ -156,16 +165,32 @@ public class CreateLinks : MonoBehaviour
 
     private void DestroyLineRenderers()
     {
+        Dictionary<SpringJoint2D, LineRenderer> links = new();
         SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
 
-        foreach (SpringJoint2D joint in currentJoint)
+        if (currentJoint.Length != lineRenderers.Count)
+        {   
+            return;
+        }
+
+        for (int i = 0; i < lineRenderers.Count; i++)
         {
-            if (!joint.enabled)
+            links[currentJoint[i]] = lineRenderers[i];
+        }
+        
+        foreach (var link in links)
+        {
+            if (!link.Key.enabled)
             {
-                for (int i = 0; i < maxLinkNumber; i++)
-                {
-                    lineRenderers[i].positionCount = minLinkNumber;
-                }
+                link.Value.positionCount = minLinkNumber;
+            }
+        }
+        
+        if (pickAndDrop.isLocked && !isMagnetised)
+        {
+            if (currentJoint.Length == minLinkNumber)
+            {
+                pickAndDrop.isLocked = false;
             }
         }
     }
