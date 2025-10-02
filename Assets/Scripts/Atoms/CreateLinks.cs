@@ -48,38 +48,25 @@ public class CreateLinks : MonoBehaviour
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(atomsTransform.position, radiusAtomDetection, layerMask);
             List<Collider2D> hitResults = new (hitColliders);
             hitResults.Remove(atomsTransform.GetComponent<Collider2D>());
-            
-            foreach (Collider2D hit in hitResults)
-            {
-                PickAndDrop hitPickAndDrop = hit.GetComponent<PickAndDrop>();
-                
-                if (!hitPickAndDrop.isLocked)
-                {
-                    hitResults.Remove(hit.GetComponent<Collider2D>());
-                }
-                
-                Debug.Log(hit.name);
-            }
-            
-            //Check s'ils sont locked et les remove s'ils ne le sont pas
-            
-            nearestHits = FindNearestHits(atomsTransform, hitResults);
-            
-            if (nearestHits.Count == maxLinkNumber)
-            {
-                canCreateLink = true;
-            }
-            else if (nearestHits.Count != maxLinkNumber)
-            {
-                canCreateLink = false;
-            }
-            else
-            {
-                Debug.Log("Se passe un truc pas net");
-            }
 
-            if (hitResults.Count < maxLinkNumber)
+            List<Collider2D> filteredHits = new();
+            
+            for (int i = 0; i < hitResults.Count; i++)
             {
+                PickAndDrop hitPickAndDrop = hitResults[i].GetComponent<PickAndDrop>();
+                if (hitPickAndDrop.isLocked)
+                {
+                    filteredHits.Add(hitResults[i]);
+                }
+            }
+            
+            nearestHits = FindNearestHits(atomsTransform, filteredHits);
+            
+            canCreateLink = (nearestHits.Count == maxLinkNumber);
+
+            if (filteredHits.Count < maxLinkNumber)
+            {
+                filteredHits.Clear();
                 nearestHits.Clear();
             }
         }
