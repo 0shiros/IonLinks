@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9540232069af54b938a9955a7fc526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateLinks
-  radiusAtomDetection: 3
+  radiusAtomDetection: 4
   layerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -242,8 +242,9 @@ MonoBehaviour:
   canCreateLink: 0
   minLinkNumber: 0
   maxLinkNumber: 2
-  frequencyJoints: 5
+  frequencyJoints: 4
   forceToBreak: 150
+  isMagnetised: 0
 --- !u!1 &5641893684182945817
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +677,6 @@ GameObject:
   - component: {fileID: 1283610484335735605}
   - component: {fileID: 4842333635793512908}
   - component: {fileID: 2792632794389669517}
-  - component: {fileID: -1726591910722087527}
   - component: {fileID: 6466772511707053604}
   m_Layer: 6
   m_Name: AtomsMovable
@@ -695,8 +695,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.54, y: -7.45, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6545564919901426102}
   - {fileID: 4540609949744905110}
@@ -749,7 +749,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8020143640844766479, guid: 4653c489d9a72074ab51a45346848d50, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 60d5f3a37226d6c438fbc2693ea45262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -795,7 +795,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1.9215686
+  m_Radius: 0.38
 --- !u!50 &2792632794389669517
 Rigidbody2D:
   serializedVersion: 5
@@ -823,28 +823,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!95 &-1726591910722087527
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7591677087130960900}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 958e49815708e2345b9ec778a2eb3c44, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6466772511707053604
 MonoBehaviour:
   m_ObjectHideFlags: 0

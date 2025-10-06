@@ -81,12 +81,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -231066297799605626, guid: 5086dc0f00a6162419d1c036332b8871, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f68d9edf65c8c1e4a9bf5b2696590654, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.07, y: 1.8690732}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -126,3 +126,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba3d88f53592b5c44a495be4fd3c3ec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shine
+  victoryPanel: {fileID: 0}
