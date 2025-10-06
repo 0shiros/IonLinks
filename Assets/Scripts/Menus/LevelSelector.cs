@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class LevelSelector : MonoBehaviour
 {
     private List<Button> buttons = new();
+    private List<RectTransform> chains = new(){null};
     
     [SerializeField] private GameObject start;
 
@@ -20,6 +21,7 @@ public class LevelSelector : MonoBehaviour
     [SerializeField] private Color startColor;
     
     private bool hasButtonBeenSelected = false;
+    private bool[] hasBeenUnlocked = new bool[4];
 
     private void Start()
     {
@@ -30,6 +32,14 @@ public class LevelSelector : MonoBehaviour
         
         foreach (RectTransform child in transform)
         {
+            foreach (RectTransform chain in child)
+            {
+                if (chain.name == "Chains")
+                {
+                    chains.Add(chain);
+                }
+            }
+            
             foreach (Button button in child.GetComponentsInChildren<Button>())
             {
                 buttons.Add(button);
@@ -40,6 +50,24 @@ public class LevelSelector : MonoBehaviour
         {
             int index = i;
             buttons[i].onClick.AddListener(() => OnlevelButtonClick(index));
+        }
+        
+        hasBeenUnlocked[0] = true;
+        
+        for (int i = 1; i < hasBeenUnlocked.Length; i++)
+        {
+            if (PlayerPrefs.HasKey("chains"+i))
+            {
+                hasBeenUnlocked[i] = PlayerPrefs.GetInt("chains"+i) == 1;
+                chains[i].gameObject.SetActive(PlayerPrefs.GetInt("chains"+i) == 0);
+                buttons[i].enabled = PlayerPrefs.GetInt("chains"+i) == 1;
+            }
+            else
+            {
+                hasBeenUnlocked[i] = false;
+                chains[i].gameObject.SetActive(true);
+                buttons[i].enabled = false;
+            }
         }
     }
 
@@ -56,7 +84,7 @@ public class LevelSelector : MonoBehaviour
             startButton.enabled = true;
             
         }
-        else
+        else if(!hasButtonBeenSelected && hasBeenUnlocked[levelIndex])
         {
             foreach (Button button in buttons)
             {
@@ -78,5 +106,20 @@ public class LevelSelector : MonoBehaviour
         {
             SceneManager.LoadSceneAsync("Level" + buttonIndex);
         }
+    }
+    
+    public void UnlockLevel(int levelIndex)
+    {
+        hasBeenUnlocked[levelIndex] = true;
+        PlayerPrefs.SetInt("chains"+levelIndex, 1);
+        PlayerPrefs.Save();
+        chains[levelIndex].gameObject.SetActive(false);
+        buttons[levelIndex].enabled = true;
+    }
+
+    public void DeleteSave()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadSceneAsync("LevelSelector");
     }
 }
