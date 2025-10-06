@@ -562,7 +562,7 @@ GameObject:
   - component: {fileID: 489083153}
   - component: {fileID: 489083152}
   m_Layer: 5
-  m_Name: ReturnMenu (1)
+  m_Name: ReturnMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -631,7 +631,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 489083153}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2077863542}
+        m_TargetAssemblyTypeName: Victory, Assembly-CSharp
+        m_MethodName: LoadMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &489083153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1806,7 +1818,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1225565212}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2077863542}
+        m_TargetAssemblyTypeName: Victory, Assembly-CSharp
+        m_MethodName: RestartLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1225565212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3029,7 +3053,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1853940906}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2077863542}
+        m_TargetAssemblyTypeName: Victory, Assembly-CSharp
+        m_MethodName: LoadNextLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1853940906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3218,6 +3254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2077863541}
+  - component: {fileID: 2077863542}
   m_Layer: 5
   m_Name: VictoryPanel
   m_TagString: Untagged
@@ -3249,6 +3286,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2077863542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077863540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0efc7f1e73d69614db6293b7d4458aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Victory
 --- !u!1001 &2125169246
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3408,7 +3457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5340999564731069222, guid: c74fffd8969fc0546b4aada332112f82, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3485,11 +3534,15 @@ PrefabInstance:
       objectReference: {fileID: 2077863540}
     - target: {fileID: 7014957138980789593, guid: 76a10e3a3cb698a45823b8c03286f3db, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8346671644911511370, guid: 76a10e3a3cb698a45823b8c03286f3db, type: 3}
       propertyPath: m_Name
       value: Ampoule
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346671644911511370, guid: 76a10e3a3cb698a45823b8c03286f3db, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
