@@ -32,12 +32,6 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    private void Start()
-    {
-        PlayMusic("Music");
-        PlaySFX("SFX");
-    }
-    
     public void PlayMusic(string clipName)
     {
         AudioClips music = System.Array.Find(audioClips, x => x.nameClip == clipName);
