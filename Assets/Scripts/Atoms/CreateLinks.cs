@@ -80,7 +80,7 @@ public class CreateLinks : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (atomsTransform != null)
+        if (atomsTransform != null && pickAndDrop.isPicking)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(atomsTransform.position, radiusAtomDetection);
