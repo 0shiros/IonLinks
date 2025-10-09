@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelSelector : MonoBehaviour
 {
     private List<Button> buttons = new();
-    private List<RectTransform> chains = new(){null};
+    private List<Transform> lamps = new(){null};
     
     [SerializeField] private GameObject start;
 
@@ -32,11 +33,11 @@ public class LevelSelector : MonoBehaviour
         
         foreach (RectTransform child in transform)
         {
-            foreach (RectTransform chain in child)
+            foreach (Transform lamp in child)
             {
-                if (chain.name == "Chains")
+                if (lamp.name == "Lamp")
                 {
-                    chains.Add(chain);
+                    lamps.Add(lamp);
                 }
             }
             
@@ -59,13 +60,13 @@ public class LevelSelector : MonoBehaviour
             if (PlayerPrefs.HasKey("chains"+i))
             {
                 hasBeenUnlocked[i] = PlayerPrefs.GetInt("chains"+i) == 1;
-                chains[i].gameObject.SetActive(PlayerPrefs.GetInt("chains"+i) == 0);
+                lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(PlayerPrefs.GetInt("chains"+i) == 1);
                 buttons[i].enabled = PlayerPrefs.GetInt("chains"+i) == 1;
             }
             else
             {
                 hasBeenUnlocked[i] = false;
-                chains[i].gameObject.SetActive(true);
+                lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(false);
                 buttons[i].enabled = false;
             }
         }
@@ -73,6 +74,11 @@ public class LevelSelector : MonoBehaviour
 
     public void OnlevelButtonClick(int levelIndex)
     {
+        if (!hasBeenUnlocked[levelIndex])
+        {
+            return;
+        }
+        
         Image buttonImage = buttons[levelIndex].GetComponent<Image>();
         
         if (hasButtonBeenSelected && levelIndex == buttonIndex)
@@ -84,7 +90,7 @@ public class LevelSelector : MonoBehaviour
             startButton.enabled = true;
             
         }
-        else if(!hasButtonBeenSelected && hasBeenUnlocked[levelIndex])
+        else
         {
             foreach (Button button in buttons)
             {
@@ -113,7 +119,7 @@ public class LevelSelector : MonoBehaviour
         hasBeenUnlocked[levelIndex] = true;
         PlayerPrefs.SetInt("chains"+levelIndex, 1);
         PlayerPrefs.Save();
-        chains[levelIndex].gameObject.SetActive(false);
+        lamps[levelIndex].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(true);
         buttons[levelIndex].enabled = true;
     }
 
