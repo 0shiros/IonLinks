@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ReachIt : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class ReachIt : MonoBehaviour
     [SerializeField] private float maxTime;
     [SerializeField] private Shine shine;
     private Animator animator;
+    
+    private Light2D spotLight;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        spotLight = GetComponentInChildren<Light2D>();
+        spotLight.intensity = 0;
     }
 
     private void Update()
@@ -54,6 +59,7 @@ public class ReachIt : MonoBehaviour
         else
         {
             animator.SetBool("canShine", false);
+            spotLight.intensity = 0;
             timer = startTime;
         }
     }
@@ -64,6 +70,18 @@ public class ReachIt : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, size);
+        }
+    }
+
+    public void SwitchSpotLightState()
+    {
+        if (spotLight.intensity == 1)
+        {
+            spotLight.intensity = 0;
+        }
+        else
+        {
+            spotLight.intensity = 1;
         }
     }
 }

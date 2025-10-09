@@ -18,7 +18,7 @@ public class CreateLinks : MonoBehaviour
     public float frequencyJoints = 10;
     public float forceToBreak = 400;
 
-    private List<LineRenderer> lineRenderers;
+    public List<LineRenderer> lineRenderers;
     public bool isMagnetised = false;
 
     public static Action<Rigidbody2D> breakLinks;

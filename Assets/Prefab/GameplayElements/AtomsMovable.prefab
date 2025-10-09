@@ -58,7 +58,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ef2a3f431a0ec9849bdcd1720aed0556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,7 +89,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.4
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -196,6 +196,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4540609949744905110}
   - component: {fileID: 5664280682102649936}
+  - component: {fileID: 987944693147690820}
   m_Layer: 0
   m_Name: Links
   m_TagString: Untagged
@@ -244,7 +245,38 @@ MonoBehaviour:
   maxLinkNumber: 2
   frequencyJoints: 4
   forceToBreak: 150
+  lineRenderers: []
   isMagnetised: 0
+--- !u!114 &987944693147690820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4599586050967019894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 897ab59bab7abb543a1f14b7c4117940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LineRendererAnimation
+  textures:
+  - {fileID: 2800000, guid: 430e5a475986c3a4481cf45d4eb0b1f1, type: 3}
+  - {fileID: 2800000, guid: e75758a278bac024bbba844c95384203, type: 3}
+  - {fileID: 2800000, guid: 3cd3380fd7ad98a48b94c6328639a2ff, type: 3}
+  - {fileID: 2800000, guid: 9db891b53f2eb064d9be684f8d03fb9b, type: 3}
+  - {fileID: 2800000, guid: 6a24c3cce939a4d40a0061c8d7a44854, type: 3}
+  - {fileID: 2800000, guid: 1555e5ecc8e30c647ac876be0b1546d2, type: 3}
+  - {fileID: 2800000, guid: f8f0ddf00dce48642b396e8b06a3f3a0, type: 3}
+  - {fileID: 2800000, guid: be1ae58d97cc937408505bc86a427417, type: 3}
+  - {fileID: 2800000, guid: 127e1fe984c4b3d44972494176ad6baf, type: 3}
+  - {fileID: 2800000, guid: db91e28db53e8bf44a049822d7b55849, type: 3}
+  - {fileID: 2800000, guid: 8e71b7ffd631b5148be052fa459a1403, type: 3}
+  - {fileID: 2800000, guid: c8ea4d4570465a74a987164614722aa7, type: 3}
+  - {fileID: 2800000, guid: ee9ee51633e74b445a3bf0ee3c9c436a, type: 3}
+  - {fileID: 2800000, guid: 3d9fca946578df449964423f30724452, type: 3}
+  - {fileID: 2800000, guid: 2db43bdde4e833b40bb548824229ca30, type: 3}
+  - {fileID: 2800000, guid: d670e1f244b297d4aaee6b6e33b251c4, type: 3}
+  fps: 60
 --- !u!1 &5641893684182945817
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +475,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ef2a3f431a0ec9849bdcd1720aed0556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -474,7 +506,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.4
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
