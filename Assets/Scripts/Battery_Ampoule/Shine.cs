@@ -12,7 +12,6 @@ public class Shine : MonoBehaviour
    {
       animator = GetComponent<Animator>();
       nextLevel = SceneManager.GetActiveScene().buildIndex - 1;
-      Debug.Log(nextLevel);
    }
 
    public void ShineAnimation()

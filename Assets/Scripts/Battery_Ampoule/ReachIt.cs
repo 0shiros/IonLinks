@@ -12,6 +12,13 @@ public class ReachIt : MonoBehaviour
     private float startTime = 0;
     [SerializeField] private float maxTime;
     [SerializeField] private Shine shine;
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         CheckAtoms();
@@ -36,6 +43,8 @@ public class ReachIt : MonoBehaviour
         
         if (filteredHits.Count >= 1)
         {
+            animator.SetBool("canShine", true);
+            
             if ((timer += Time.deltaTime) > maxTime)
             {
                 Debug.Log("Reach It");
@@ -44,6 +53,7 @@ public class ReachIt : MonoBehaviour
         }
         else
         {
+            animator.SetBool("canShine", false);
             timer = startTime;
         }
     }
