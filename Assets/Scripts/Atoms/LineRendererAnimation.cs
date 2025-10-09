@@ -6,6 +6,8 @@ public class LineRendererAnimation : MonoBehaviour
     private CreateLinks createLinks;
     [SerializeField] private Texture[] textures;
     [SerializeField] private float fps;
+    private float fpsCounter;
+    private int animationStep;
     
     private void Start()
     {
@@ -19,24 +21,27 @@ public class LineRendererAnimation : MonoBehaviour
 
     private void SwitchMaterialLineRenderer()
     {
-        foreach (LineRenderer lineRenderer in createLinks.lineRenderers)
+        fpsCounter += Time.deltaTime;
+        
+        if (fpsCounter >= 1f / fps)
         {
-            float fpsCounter = 0;
-            int animationStep = 0;
-            
-            fpsCounter += Time.deltaTime;
-            if (fpsCounter >= 1f / fps)
+            animationStep++;
+                    
+            if (animationStep == textures.Length)
             {
-                animationStep++;
-                
-                if (animationStep == textures.Length)
-                {
-                    animationStep = 0;
-                }
-                
-                lineRenderer.material.SetTexture("ElectricJoint", textures[animationStep]);
-                fpsCounter = 0;
+                animationStep = 0;
             }
+
+            foreach (LineRenderer lineRenderer in createLinks.lineRenderers)
+            {
+                if (lineRenderer.positionCount > 0)
+                {
+                    lineRenderer.material.SetTexture("_MainTex", textures[animationStep]);
+                }
+            }
+
+            fpsCounter = 0;
         }
+        
     }
 }
