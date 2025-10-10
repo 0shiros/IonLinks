@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StickAtoms : MonoBehaviour
 {
     [SerializeField] private Vector2 size;
     [SerializeField] private LayerMask layerMask;
 
+    [SerializeField] private Timer timer;
+    
     private void Update()
     {
         GlueAtoms();
@@ -29,6 +32,7 @@ public class StickAtoms : MonoBehaviour
                     atom.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                     atomCreateLinks.isMagnetised = true;
                     atomPickAndDrop.isLocked = true;
+                    timer.launchTimer = true;
                 }
             }
         }

@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour
    private int seconds;
    private int minutes;
    [SerializeField] private GameObject defeatPanel;
-
+   public bool launchTimer = false;
    private void Start()
    {
       currentTime = minTime;
@@ -24,16 +24,20 @@ public class Timer : MonoBehaviour
       GameTimer();
    }
 
-   private void GameTimer()
+   public void GameTimer()
    {
-      currentTime += Time.deltaTime;
-      minutes = Mathf.FloorToInt(currentTime / 60);
-      seconds = Mathf.FloorToInt(currentTime % 60);
-      if (currentTime >= maxTime)
+      if (launchTimer)
       {
-         defeatPanel.SetActive(true);
-      }
+         currentTime += Time.deltaTime;
+         minutes = Mathf.FloorToInt(currentTime / 60);
+         seconds = Mathf.FloorToInt(currentTime % 60);
+         
+         if (currentTime >= maxTime)
+         {
+            defeatPanel.SetActive(true);
+         }
 
-      textMesh.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+         textMesh.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+      }
    }
 }
