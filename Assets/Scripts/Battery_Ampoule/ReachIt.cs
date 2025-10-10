@@ -52,7 +52,6 @@ public class ReachIt : MonoBehaviour
             
             if ((timer += Time.deltaTime) > maxTime)
             {
-                Debug.Log("Reach It");
                 shine.ShineAnimation();
             }
         }
