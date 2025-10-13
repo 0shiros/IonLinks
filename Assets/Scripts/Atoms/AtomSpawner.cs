@@ -11,7 +11,7 @@ public class AtomSpawner : MonoBehaviour
     [SerializeField] private int atomsPerRow = 3;
     private EdgeCollider2D receptacleEdge;
     
-    private List<GameObject> atoms = new();
+    public List<GameObject> atoms = new();
 
     private void Start()
     {

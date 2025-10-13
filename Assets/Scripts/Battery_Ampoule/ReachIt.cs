@@ -54,7 +54,7 @@ public class ReachIt : MonoBehaviour
             if ((timer += Time.deltaTime) > maxTime)
             {
                 shine.ShineAnimation();
-                timerLevel.launchTimer = false;
+                timerLevel.StopTimer();
             }
         }
         else

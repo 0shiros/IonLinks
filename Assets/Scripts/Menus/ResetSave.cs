@@ -6,4 +6,9 @@ public class ResetSave : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
     }
+
+    public void toto()
+    {
+        Debug.Log("dddd");
+    }
 }

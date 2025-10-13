@@ -2,6 +2,13 @@ using System;
 using TMPro;
 using UnityEngine;
 
+public enum TimerState
+{
+   Basic,
+   Running,
+   Paused
+}
+
 public class Timer : MonoBehaviour
 {
    public float currentTime;
@@ -11,7 +18,8 @@ public class Timer : MonoBehaviour
    private int seconds;
    private int minutes;
    [SerializeField] private GameObject defeatPanel;
-   public bool launchTimer = false;
+   public TimerState state = TimerState.Basic;
+   
    private void Start()
    {
       currentTime = minTime;
@@ -26,7 +34,7 @@ public class Timer : MonoBehaviour
 
    public void GameTimer()
    {
-      if (launchTimer)
+      if (state == TimerState.Running)
       {
          currentTime += Time.deltaTime;
          minutes = Mathf.FloorToInt(currentTime / 60);
@@ -40,4 +48,7 @@ public class Timer : MonoBehaviour
          textMesh.text = string.Format("{0:00}:{1:00}", minutes, seconds);
       }
    }
+   
+   public void StartTimer() => state = TimerState.Running;
+   public void StopTimer() => state = TimerState.Paused;
 }
