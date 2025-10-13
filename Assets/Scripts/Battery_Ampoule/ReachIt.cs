@@ -16,6 +16,7 @@ public class ReachIt : MonoBehaviour
     private Animator animator;
     
     private Light2D spotLight;
+    [SerializeField] private Timer timerLevel;
 
     private void Start()
     {
@@ -53,6 +54,7 @@ public class ReachIt : MonoBehaviour
             if ((timer += Time.deltaTime) > maxTime)
             {
                 shine.ShineAnimation();
+                timerLevel.launchTimer = false;
             }
         }
         else

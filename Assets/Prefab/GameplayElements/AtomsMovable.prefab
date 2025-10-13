@@ -803,7 +803,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 880b4b72bdc325044a0fe07579143038, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -827,8 +827,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.16, y: -0.05}
-  m_Size: {x: 17.5, y: 14}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.8, y: 1.3}
   m_Direction: 1
 --- !u!50 &2792632794389669517
 Rigidbody2D:

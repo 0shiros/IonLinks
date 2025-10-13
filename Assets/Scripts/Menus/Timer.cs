@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-   private float currentTime;
+   public float currentTime;
    private float minTime;
    [SerializeField] private float maxTime;
    private TextMeshProUGUI textMesh;
