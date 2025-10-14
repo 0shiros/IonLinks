@@ -46,6 +46,7 @@ public class Challenges : MonoBehaviour
                 atomSprites[0].color = Color.white;
                 hasSuccessedTimerChallenge = true;
                 PlayerPrefs.SetInt("TimerChallenge" + currentLevel, hasSuccessedTimerChallenge ? 1 : 0);
+                PlayerPrefs.Save();
             }
         }
         else
@@ -74,6 +75,7 @@ public class Challenges : MonoBehaviour
                 atomSprites[1].color = Color.white;
                 hasSuccessedAtomChallenge = true;
                 PlayerPrefs.SetInt("AtomChallenge" + currentLevel, hasSuccessedAtomChallenge ? 1 : 0);
+                PlayerPrefs.Save();
             }
         }
         else

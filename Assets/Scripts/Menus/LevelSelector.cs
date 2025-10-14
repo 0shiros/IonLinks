@@ -62,6 +62,7 @@ public class LevelSelector : MonoBehaviour
                 hasBeenUnlocked[i] = PlayerPrefs.GetInt("chains"+i) == 1;
                 lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(PlayerPrefs.GetInt("chains"+i) == 1);
                 buttons[i].enabled = PlayerPrefs.GetInt("chains"+i) == 1;
+                PlayerPrefs.Save();
             }
             else
             {
@@ -126,6 +127,7 @@ public class LevelSelector : MonoBehaviour
     public void DeleteSave()
     {
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
         SceneManager.LoadSceneAsync("LevelSelector");
     }
 }

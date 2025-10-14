@@ -33,11 +33,10 @@ public class Shine : MonoBehaviour
       if(!victoryPanel.activeSelf) victoryPanel.SetActive(true);
      
       //Unlock the next level in selector level
-      if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCount-1)
-      {
-         PlayerPrefs.SetInt("chains" + nextLevel, 1);
-         PlayerPrefs.Save();
-      }
+      
+      PlayerPrefs.SetInt("chains" + nextLevel, 1);
+      PlayerPrefs.Save();
+      
    }
 
    public void AnimationCallFadeLight()
