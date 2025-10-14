@@ -20,6 +20,7 @@ public class LevelSelector : MonoBehaviour
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color startColor;
+    [SerializeField] private Sprite[] lampSprites;
     
     private bool hasButtonBeenSelected = false;
     private bool[] hasBeenUnlocked = new bool[4];
@@ -62,6 +63,7 @@ public class LevelSelector : MonoBehaviour
                 hasBeenUnlocked[i] = PlayerPrefs.GetInt("chains"+i) == 1;
                 lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(PlayerPrefs.GetInt("chains"+i) == 1);
                 buttons[i].enabled = PlayerPrefs.GetInt("chains"+i) == 1;
+                lamps[i].gameObject.GetComponent<SpriteRenderer>().sprite = lampSprites[1];
                 PlayerPrefs.Save();
             }
             else
@@ -69,6 +71,7 @@ public class LevelSelector : MonoBehaviour
                 hasBeenUnlocked[i] = false;
                 lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(false);
                 buttons[i].enabled = false;
+                lamps[i].gameObject.GetComponent<SpriteRenderer>().sprite = lampSprites[0];
             }
         }
     }
@@ -113,21 +116,5 @@ public class LevelSelector : MonoBehaviour
         {
             SceneManager.LoadSceneAsync("Level" + buttonIndex);
         }
-    }
-    
-    public void UnlockLevel(int levelIndex)
-    {
-        hasBeenUnlocked[levelIndex] = true;
-        PlayerPrefs.SetInt("chains"+levelIndex, 1);
-        PlayerPrefs.Save();
-        lamps[levelIndex].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(true);
-        buttons[levelIndex].enabled = true;
-    }
-
-    public void DeleteSave()
-    {
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
-        SceneManager.LoadSceneAsync("LevelSelector");
     }
 }
