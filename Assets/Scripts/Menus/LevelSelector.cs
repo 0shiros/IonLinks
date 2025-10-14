@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -14,12 +15,13 @@ public class LevelSelector : MonoBehaviour
 
     private Image startImage;
     private Button startButton;
+    private TextMeshProUGUI startText;
     
     private int buttonIndex = -1;
     
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color selectedColor;
-    [SerializeField] private Color startColor;
+    [SerializeField] private Sprite[] startButtonSprites;
     [SerializeField] private Sprite[] lampSprites;
     
     private bool hasButtonBeenSelected = false;
@@ -29,8 +31,10 @@ public class LevelSelector : MonoBehaviour
     {
         startImage = start.GetComponent<Image>();
         startButton = start.GetComponent<Button>();
+        startText = start.GetComponentInChildren<TextMeshProUGUI>(true);
         startButton.enabled = false;
-        startImage.color = defaultColor;
+        startImage.sprite = startButtonSprites[0];
+        startText.gameObject.SetActive(false);
         
         foreach (RectTransform child in transform)
         {
@@ -90,7 +94,8 @@ public class LevelSelector : MonoBehaviour
             buttonImage.color = defaultColor;
             buttonIndex = -1;
             hasButtonBeenSelected = false;
-            startImage.color = defaultColor;
+            startImage.sprite = startButtonSprites[0];
+            startText.gameObject.SetActive(false);
             startButton.enabled = true;
             
         }
@@ -105,7 +110,8 @@ public class LevelSelector : MonoBehaviour
             buttonImage.color = selectedColor;
             buttonIndex = levelIndex;
             hasButtonBeenSelected = true;
-            startImage.color = startColor;
+            startImage.sprite = startButtonSprites[1];
+            startText.gameObject.SetActive(true);
             startButton.enabled = true;
         }
     }
