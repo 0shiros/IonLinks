@@ -244,7 +244,7 @@ MonoBehaviour:
   minLinkNumber: 0
   maxLinkNumber: 2
   frequencyJoints: 4
-  forceToBreak: 150
+  forceToBreak: 350
   lineRenderers: []
   isMagnetised: 0
 --- !u!114 &987944693147690820

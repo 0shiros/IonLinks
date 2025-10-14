@@ -35,7 +35,7 @@ public class CreateLinks : MonoBehaviour
     {
         AtomsNextDetection();
         LockAtom();
-        UnlockAtom();
+        UnlockAtomWithMouse();
         LinksCurrentPositions();
         DestroyLineRenderers();
     }
@@ -131,7 +131,28 @@ public class CreateLinks : MonoBehaviour
 
     }
 
-    private void UnlockAtom()
+    public void UnlockAtom()
+    {
+        pickAndDrop.isLocked = false;
+        SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
+
+        foreach (SpringJoint2D joint in currentJoint)
+        {
+            Destroy(joint);
+        }
+
+        for (int i = 0; i < maxLinkNumber; i++)
+        {
+            lineRenderers[i].positionCount = minLinkNumber;
+        }
+                    
+        breakLinks?.Invoke(transform.parent.GetComponent<Rigidbody2D>());
+
+        currentLinkNumber = minLinkNumber;
+        canCreateLink = false;
+    }
+
+    private void UnlockAtomWithMouse()
     {
         if (pickAndDrop.isLocked)
         {
@@ -141,29 +162,13 @@ public class CreateLinks : MonoBehaviour
 
                 if (hitMouse.collider == pickAndDrop.atomCollider)
                 {
-                    pickAndDrop.isLocked = false;
-                    SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
-
-                    foreach (SpringJoint2D joint in currentJoint)
-                    {
-                        Destroy(joint);
-                    }
-
-                    for (int i = 0; i < maxLinkNumber; i++)
-                    {
-                        lineRenderers[i].positionCount = minLinkNumber;
-                    }
-                    
-                    breakLinks?.Invoke(transform.parent.GetComponent<Rigidbody2D>());
-
-                    currentLinkNumber = minLinkNumber;
-                    canCreateLink = false;
+                   UnlockAtom();
                 }
             }
         }
     }
 
-    private void DestroyLineRenderers()
+    public void DestroyLineRenderers()
     {
         Dictionary<SpringJoint2D, LineRenderer> links = new();
         SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
