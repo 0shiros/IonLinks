@@ -5,30 +5,35 @@ using UnityEngine;
 
 public class CreateLinks : MonoBehaviour
 {
-    [SerializeField] private float radiusAtomDetection;
+    [Header("Settings")]
     [SerializeField] private LayerMask layerMask;
-    public List<Collider2D> nearestHits;
-
-    public PickAndDrop pickAndDrop;
-    public Transform atomsTransform;
-    public bool canCreateLink = false;
-    private int currentLinkNumber = 0;
-    public int minLinkNumber = 0;
-    public int maxLinkNumber = 2;
+    [SerializeField] private float radiusAtomDetection;
+    public int quantityOfLinkGenerate;
     public float frequencyJoints = 10;
     public float forceToBreak = 400;
-
-    public List<LineRenderer> lineRenderers;
+    public bool canCreateLink = false;
     public bool isMagnetised = false;
 
+    [Header("References")]
+    public PickAndDrop pickAndDrop;
+    public Transform atomsTransform;
+    private Collider2D atomCollider;
+    private Rigidbody2D atomRigidbody2D;
+    public List<Collider2D> nearestHits;
+    public List<SpringJoint2D> currentJoints = new();
+    public List<LineRenderer> lineRenderers;
+    
+    [Header("Events")]
     public static Action<Rigidbody2D> breakLinks;
         
     private void Start()
     {
         atomsTransform = transform.parent;
         pickAndDrop = atomsTransform.GetComponent<PickAndDrop>();
-        LineRenderer[] getLineRenderers = GetComponentsInChildren<LineRenderer>();
-        lineRenderers = new(getLineRenderers);
+        atomCollider = atomsTransform.GetComponent<Collider2D>();
+        atomRigidbody2D = atomsTransform.GetComponent<Rigidbody2D>();
+        CreateSpringJoints2D();
+        lineRenderers = new(GetComponentsInChildren<LineRenderer>());
     }
 
     private void Update()
@@ -40,26 +45,38 @@ public class CreateLinks : MonoBehaviour
         DestroyLineRenderers();
     }
 
+    private void CreateSpringJoints2D()
+    {
+        for (int i = 0; i < quantityOfLinkGenerate; i++)
+        {
+            SpringJoint2D joint2D = atomsTransform.gameObject.AddComponent(typeof(SpringJoint2D)) as SpringJoint2D;
+            joint2D.enabled = false;
+            joint2D.frequency = frequencyJoints;
+            joint2D.breakForce = forceToBreak;
+            joint2D.breakAction = JointBreakAction2D.Disable;
+            currentJoints.Add(joint2D);
+        }
+    }
+
     List<Collider2D> FindNearestHits(Transform atomPicked, List<Collider2D> hits)
     {
         return hits.OrderBy(hitPoint => Vector3.Distance(atomPicked.transform.position, hitPoint.transform.position))
-            .Take(maxLinkNumber).ToList();
+            .Take(2).ToList();
     }
 
     private void AtomsNextDetection()
     {
         if (pickAndDrop.isPicking)
         {
-            Collider2D[] hitColliders =
-                Physics2D.OverlapCircleAll(atomsTransform.position, radiusAtomDetection, layerMask);
-            List<Collider2D> hitResults = new(hitColliders);
-            hitResults.Remove(atomsTransform.GetComponent<Collider2D>());
+            List<Collider2D> hitResults = new(Physics2D.OverlapCircleAll(atomsTransform.position, radiusAtomDetection, layerMask));
+            hitResults.Remove(atomCollider);
 
             List<Collider2D> filteredHits = new();
 
             for (int i = 0; i < hitResults.Count; i++)
             {
                 PickAndDrop hitPickAndDrop = hitResults[i].GetComponent<PickAndDrop>();
+                
                 if (hitPickAndDrop.isLocked)
                 {
                     filteredHits.Add(hitResults[i]);
@@ -68,9 +85,9 @@ public class CreateLinks : MonoBehaviour
 
             nearestHits = FindNearestHits(atomsTransform, filteredHits);
 
-            canCreateLink = (nearestHits.Count == maxLinkNumber);
+            canCreateLink = (nearestHits.Count == 2);
 
-            if (filteredHits.Count < maxLinkNumber)
+            if (filteredHits.Count < 2)
             {
                 filteredHits.Clear();
                 nearestHits.Clear();
@@ -91,65 +108,51 @@ public class CreateLinks : MonoBehaviour
     {
         if (canCreateLink && !pickAndDrop.isPicking)
         {
-            if (currentLinkNumber < maxLinkNumber)
+            for (int i = 0; i < 2; i++)
             {
-                foreach (Collider2D hit in nearestHits)
-                {
-                    SpringJoint2D joint =
-                        atomsTransform.gameObject.AddComponent(typeof(SpringJoint2D)) as SpringJoint2D;
-                    if (joint == null) return;
-                    joint.connectedBody = hit.GetComponent<Rigidbody2D>();
-                    joint.frequency = frequencyJoints;
-                    joint.breakForce = forceToBreak;
-                    joint.breakAction = JointBreakAction2D.Disable;
-                    PickAndDrop jointPickAndDrop = hit.GetComponent<PickAndDrop>();
-                    jointPickAndDrop.isLocked = true;
-                    currentLinkNumber++;
-                }
-
-                for (int i = 0; i < maxLinkNumber; i++)
-                {
-                    lineRenderers[i].positionCount = maxLinkNumber;
-                }
-
-                pickAndDrop.isLocked = true;
-
+                if (currentJoints[i] == null) return;
+                currentJoints[i].connectedBody = nearestHits[i].GetComponent<Rigidbody2D>();
+                currentJoints[i].enabled = true;
+                
+                PickAndDrop jointPickAndDrop = nearestHits[i].GetComponent<PickAndDrop>();
+                jointPickAndDrop.isLocked = true;
+                
+                lineRenderers[i].positionCount = 2;
             }
+            
+            pickAndDrop.isLocked = true;
+            canCreateLink = false;
         }
     }
 
     private void LinksCurrentPositions()
     {
-        for (int i = 0; i < maxLinkNumber; i++)
+        for (int i = 0; i < quantityOfLinkGenerate; i++)
         {
-            if (lineRenderers[i].positionCount == maxLinkNumber)
+            if (lineRenderers[i].positionCount == 2)
             {
                 lineRenderers[i].SetPosition(0, atomsTransform.position);
                 lineRenderers[i].SetPosition(1, nearestHits[i].transform.position);
             }
         }
-
     }
 
     public void UnlockAtom()
     {
+        canCreateLink =  false;
         pickAndDrop.isLocked = false;
-        SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
-
-        foreach (SpringJoint2D joint in currentJoint)
+        
+        foreach (SpringJoint2D joint in currentJoints)
         {
-            Destroy(joint);
+            joint.enabled = false;
         }
 
-        for (int i = 0; i < maxLinkNumber; i++)
+        for (int i = 0; i < quantityOfLinkGenerate; i++)
         {
-            lineRenderers[i].positionCount = minLinkNumber;
+            lineRenderers[i].positionCount = 0;
         }
                     
-        breakLinks?.Invoke(transform.parent.GetComponent<Rigidbody2D>());
-
-        currentLinkNumber = minLinkNumber;
-        canCreateLink = false;
+        breakLinks?.Invoke(atomRigidbody2D);
     }
 
     private void UnlockAtomWithMouse()
@@ -171,29 +174,28 @@ public class CreateLinks : MonoBehaviour
     public void DestroyLineRenderers()
     {
         Dictionary<SpringJoint2D, LineRenderer> links = new();
-        SpringJoint2D[] currentJoint = atomsTransform.GetComponents<SpringJoint2D>();
 
-        if (currentJoint.Length != lineRenderers.Count)
+        if (currentJoints.Count != lineRenderers.Count)
         {   
             return;
         }
 
         for (int i = 0; i < lineRenderers.Count; i++)
         {
-            links[currentJoint[i]] = lineRenderers[i];
+            links[currentJoints[i]] = lineRenderers[i];
         }
         
         foreach (var link in links)
         {
             if (!link.Key.enabled)
             {
-                link.Value.positionCount = minLinkNumber;
+                link.Value.positionCount = 0;
             }
         }
         
         if (pickAndDrop.isLocked && !isMagnetised)
         {
-            if (currentJoint.Length == minLinkNumber)
+            if (currentJoints.Count == 0)
             {
                 pickAndDrop.isLocked = false;
             }

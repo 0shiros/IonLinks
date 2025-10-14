@@ -1,19 +1,29 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PickAndDrop : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float lerpTime = 0.1f;
     public Vector2 mousePosition;
-    public Collider2D atomCollider;
-    private Rigidbody2D atomRigidbody;
     public bool isPicking = false;
     public bool isLocked = false;
+    
+    [Header("References")]
+    public Collider2D atomCollider;
+    private Rigidbody2D atomRigidbody;
+    public CreateLinks createLinks;
+    private Rigidbody2D rigidBody;
+    private List<GameObject> allAtoms;
 
     private void Start()
     {
         atomRigidbody = transform.GetComponent<Rigidbody2D>();
         atomCollider = transform.GetComponent<Collider2D>();
+        createLinks = GetComponentInChildren<CreateLinks>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        allAtoms = GetComponentInParent<AtomSpawner>().atoms;
     }
 
     private void Update()
@@ -66,27 +76,43 @@ public class PickAndDrop : MonoBehaviour
         CreateLinks.breakLinks -= BreakLinks;
     }
 
-    private void BreakLinks(Rigidbody2D rb)
+    public void BreakLinks(Rigidbody2D rb)
     {
-        SpringJoint2D[] joints = GetComponents<SpringJoint2D>();
-        int count = 0;
-        foreach (SpringJoint2D joint in joints)
+        foreach (SpringJoint2D joint in createLinks.currentJoints)
         {
-            if (rb == joint.connectedBody)
+            if (joint.connectedBody == rb)
             {
                 joint.enabled = false;
-                
-            }
-
-            if (joint.enabled)
-            {
-                count++;
             }
         }
 
-        if (count < 1)
+        if (!HasAnyActiveLink())
         {
             isLocked = false;
         }
+    }
+
+    private bool HasAnyActiveLink()
+    {
+        foreach (SpringJoint2D joint in createLinks.currentJoints)
+        {
+            if (joint.enabled && joint.connectedBody != null)
+                return true;
+        }
+            
+        foreach (GameObject atom in allAtoms)
+        {
+            if (atom == this.gameObject) continue;
+
+            PickAndDrop atomPickAndDrop = atom.GetComponent<PickAndDrop>();
+            
+            foreach (SpringJoint2D joint in atomPickAndDrop.createLinks.currentJoints)
+            {
+                if (joint.enabled && joint.connectedBody == rigidBody)
+                    return true;
+            }
+        }
+
+        return false;
     }
 }

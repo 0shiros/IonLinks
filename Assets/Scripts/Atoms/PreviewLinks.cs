@@ -22,18 +22,18 @@ public class PreviewLinks : MonoBehaviour
     {
         if (createLinks.canCreateLink && createLinks.pickAndDrop.isPicking)
         {
-            for (int i = 0; i < createLinks.maxLinkNumber; i++)
+            for (int i = 0; i < createLinks.quantityOfLinkGenerate; i++)
             {
-                previewLineRenderers[i].positionCount = createLinks.maxLinkNumber;
+                previewLineRenderers[i].positionCount = createLinks.quantityOfLinkGenerate;
                 previewLineRenderers[i].SetPosition(0, transform.position);
                 previewLineRenderers[i].SetPosition(1, createLinks.nearestHits[i].transform.position);
             }
         }
         else
         {
-            for (int i = 0; i < createLinks.maxLinkNumber; i++)
+            for (int i = 0; i < createLinks.quantityOfLinkGenerate; i++)
             {
-                previewLineRenderers[i].positionCount = createLinks.minLinkNumber;
+                previewLineRenderers[i].positionCount = 0;
             }
         }
     }

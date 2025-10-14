@@ -233,20 +233,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9540232069af54b938a9955a7fc526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateLinks
-  radiusAtomDetection: 4
   layerMask:
     serializedVersion: 2
     m_Bits: 64
-  nearestHits: []
+  radiusAtomDetection: 6
+  quantityOfLinkGenerate: 2
+  frequencyJoints: 4
+  forceToBreak: 250
+  canCreateLink: 0
+  isMagnetised: 0
   pickAndDrop: {fileID: 0}
   atomsTransform: {fileID: 0}
-  canCreateLink: 0
-  minLinkNumber: 0
-  maxLinkNumber: 2
-  frequencyJoints: 4
-  forceToBreak: 350
+  nearestHits: []
+  currentJoints: []
   lineRenderers: []
-  isMagnetised: 0
 --- !u!114 &987944693147690820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -871,6 +871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickAndDrop
   lerpTime: 1
   mousePosition: {x: 0, y: 0}
-  atomCollider: {fileID: 0}
   isPicking: 0
   isLocked: 0
+  atomCollider: {fileID: 0}
+  createLinks: {fileID: 0}
