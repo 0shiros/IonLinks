@@ -30,6 +30,8 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        PlayMusic("Music");
     }
     
     public void PlayMusic(string clipName)
