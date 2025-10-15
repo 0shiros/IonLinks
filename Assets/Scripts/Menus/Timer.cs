@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum TimerState
 {
@@ -12,8 +14,9 @@ public enum TimerState
 public class Timer : MonoBehaviour
 {
    public float currentTime;
-   private float minTime;
-   [SerializeField] private float maxTime;
+   private int minTime;
+   [SerializeField] private int maxTime;
+   private Image timerImage;
    private TextMeshProUGUI textMesh;
    private int seconds;
    private int minutes;
@@ -23,9 +26,12 @@ public class Timer : MonoBehaviour
    private void Start()
    {
       Time.timeScale = 1f;
-      currentTime = minTime;
-      textMesh = GetComponent<TextMeshProUGUI>();
+      currentTime = maxTime;
+      minTime = 0;
+      textMesh = GetComponentInChildren<TextMeshProUGUI>();
       defeatPanel.SetActive(false);
+      textMesh.text = string.Format("{0:00}:{1:00}", 
+         minutes = Mathf.FloorToInt(currentTime / 60), Mathf.FloorToInt(currentTime % 60));
    }
 
    private void Update()
@@ -35,13 +41,13 @@ public class Timer : MonoBehaviour
 
    public void GameTimer()
    {
-      if (state == TimerState.Running)
+      if (state == TimerState.Running && currentTime > minTime)
       {
-         currentTime += Time.deltaTime;
-         minutes = Mathf.FloorToInt(currentTime / 60);
+         currentTime -= Time.deltaTime;
          seconds = Mathf.FloorToInt(currentTime % 60);
+         minutes = Mathf.FloorToInt(currentTime / 60);
          
-         if (currentTime >= maxTime)
+         if (currentTime <= minTime)
          {
             defeatPanel.SetActive(true);
          }

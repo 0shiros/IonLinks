@@ -44,7 +44,7 @@ public class Challenges : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("TimerChallenge" + currentLevel) == 0)
         {
-            if (Mathf.FloorToInt(timer.currentTime) <= timerChallenge)
+            if (Mathf.FloorToInt(timer.currentTime) >= 60 - timerChallenge)
             {
                 atomSprites[0].color = Color.white;
                 hasSuccessedTimerChallenge = true;
