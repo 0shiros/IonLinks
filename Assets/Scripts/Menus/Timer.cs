@@ -22,6 +22,7 @@ public class Timer : MonoBehaviour
    
    private void Start()
    {
+      Time.timeScale = 1f;
       currentTime = minTime;
       textMesh = GetComponent<TextMeshProUGUI>();
       defeatPanel.SetActive(false);

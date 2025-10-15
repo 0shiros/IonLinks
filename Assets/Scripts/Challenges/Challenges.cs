@@ -20,7 +20,10 @@ public class Challenges : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            atomSprites.Add(child.GetComponentInChildren<Image>(true));
+            if (child.gameObject.name != "Background")
+            {
+                atomSprites.Add(child.GetComponentInChildren<Image>(true));
+            }
         }
         
         currentLevel = SceneManager.GetActiveScene().buildIndex - 2;

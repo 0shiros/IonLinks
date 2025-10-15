@@ -10,6 +10,7 @@ public class LevelSelector : MonoBehaviour
 {
     private List<Button> buttons = new();
     private List<Transform> lamps = new(){null};
+    private List<Image> backgroundButtons = new();
     
     [SerializeField] private GameObject start;
 
@@ -19,8 +20,8 @@ public class LevelSelector : MonoBehaviour
     
     private int buttonIndex = -1;
     
-    [SerializeField] private Color defaultColor;
-    [SerializeField] private Color selectedColor;
+    [SerializeField] private Sprite[] darkLevelButtonSprites;
+    [SerializeField] private Sprite[] lightLevelButtonSprites;
     [SerializeField] private Sprite[] startButtonSprites;
     [SerializeField] private Sprite[] lampSprites;
     
@@ -29,6 +30,7 @@ public class LevelSelector : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         startImage = start.GetComponent<Image>();
         startButton = start.GetComponent<Button>();
         startText = start.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -50,6 +52,15 @@ public class LevelSelector : MonoBehaviour
             {
                 buttons.Add(button);
             }
+            
+            foreach (Image image in child.GetComponentsInChildren<Image>(true))
+            {
+                if (image.gameObject.name == "Background")
+                {
+                    backgroundButtons.Add(image);
+                    image.gameObject.SetActive(false);
+                }
+            }
         }
 
         for (int i = 0; i < buttons.Count; i++)
@@ -67,7 +78,8 @@ public class LevelSelector : MonoBehaviour
                 hasBeenUnlocked[i] = PlayerPrefs.GetInt("chains"+i) == 1;
                 lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(PlayerPrefs.GetInt("chains"+i) == 1);
                 buttons[i].enabled = PlayerPrefs.GetInt("chains"+i) == 1;
-                lamps[i].gameObject.GetComponent<SpriteRenderer>().sprite = lampSprites[1];
+                lamps[i].gameObject.GetComponent<SpriteRenderer>().sprite = lampSprites[PlayerPrefs.GetInt("chains" + i) == 1 ? 1 : 0];
+                buttons[i].image.sprite = PlayerPrefs.GetInt("chains" + i) == 1 ? lightLevelButtonSprites[i] : darkLevelButtonSprites[i];
                 PlayerPrefs.Save();
             }
             else
@@ -76,6 +88,7 @@ public class LevelSelector : MonoBehaviour
                 lamps[i].gameObject.GetComponentInChildren<Light2D>(true).gameObject.SetActive(false);
                 buttons[i].enabled = false;
                 lamps[i].gameObject.GetComponent<SpriteRenderer>().sprite = lampSprites[0];
+                buttons[i].image.sprite = darkLevelButtonSprites[i];
             }
         }
     }
@@ -87,11 +100,9 @@ public class LevelSelector : MonoBehaviour
             return;
         }
         
-        Image buttonImage = buttons[levelIndex].GetComponent<Image>();
-        
         if (hasButtonBeenSelected && levelIndex == buttonIndex)
         {
-            buttonImage.color = defaultColor;
+            backgroundButtons[levelIndex].gameObject.SetActive(false);
             buttonIndex = -1;
             hasButtonBeenSelected = false;
             startImage.sprite = startButtonSprites[0];
@@ -101,13 +112,11 @@ public class LevelSelector : MonoBehaviour
         }
         else
         {
-            foreach (Button button in buttons)
+            foreach(Image image in backgroundButtons)
             {
-                Image buttonImages = button.GetComponent<Image>();
-                buttonImages.color = defaultColor;
+                image.gameObject.SetActive(false);
             }
-            
-            buttonImage.color = selectedColor;
+            backgroundButtons[levelIndex].gameObject.SetActive(true);
             buttonIndex = levelIndex;
             hasButtonBeenSelected = true;
             startImage.sprite = startButtonSprites[1];
