@@ -1451,6 +1451,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -75
       objectReference: {fileID: 0}
+    - target: {fileID: 2108588144378635350, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2618653457505898876, guid: 3d9d6df3e11c7b44b97537f80644a624, type: 3}
     - target: {fileID: 5018058474751983310, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -120
@@ -1707,6 +1711,22 @@ PrefabInstance:
       propertyPath: 'timerSprites.Array.data[59]'
       value: 
       objectReference: {fileID: 21300000, guid: e5cbce08b36822b49b592fa91b41f339, type: 3}
+    - target: {fileID: 5315697622586779646, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.009433806
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315697622586779646, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.17012621
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315697622586779646, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315697622586779646, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278332415
+      objectReference: {fileID: 0}
     - target: {fileID: 6150537931531606129, guid: d89472b57514cf64d8cee55435c7b6a9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
